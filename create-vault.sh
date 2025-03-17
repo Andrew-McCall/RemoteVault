@@ -16,6 +16,8 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+chmod +x "./.backup.sh"
+
 # Initialize git repository
 echo "Initializing git repository..."
 git init
@@ -66,5 +68,4 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# Cleanup
-rm -- "$0"
+./.backup.sh
