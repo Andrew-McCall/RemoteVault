@@ -65,3 +65,6 @@ if [ $? -ne 0 ]; then
   echo "Error: Failed to open $BACKUPLIST in $editor."
   exit 1
 fi
+
+# Cleanup
+rm -- "$0"
