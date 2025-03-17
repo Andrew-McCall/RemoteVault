@@ -24,9 +24,14 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# Ask the user for the repo path
+# Ask the user for the repo path and make sure it waits for input
 echo "Please enter the repository path:"
-read REPO_PATH
+read -r REPO_PATH
+if [ -z "$REPO_PATH" ]; then
+  echo "Error: No repository path provided."
+  exit 1
+fi
+
 
 # Add the remote origin
 echo "Adding remote origin..."
