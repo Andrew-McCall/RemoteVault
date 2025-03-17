@@ -6,7 +6,7 @@ LOG_FILE=".git/.backup.log"
 exec > >(tee -a "$LOG_FILE") 2>&1
 
 # Define the file path inside the .git folder
-FILE_LIST=".git/addlist.txt"
+FILE_LIST=".backupList"
 
 # Check if the .git directory exists (i.e., it's a valid Git repository)
 if [ ! -d ".git" ]; then
