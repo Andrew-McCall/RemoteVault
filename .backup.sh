@@ -20,12 +20,6 @@ if [ ! -f "$FILE_LIST" ]; then
     exit 1
 fi
 
-# Check if the file is empty
-if [ ! -s "$FILE_LIST" ]; then
-    echo "Error: $FILE_LIST is empty"
-    exit 1
-fi
-
 # Add files listed in the file
 while IFS= read -r file; do
     if [ -n "$file" ]; then
@@ -33,14 +27,13 @@ while IFS= read -r file; do
     fi
 done < "$FILE_LIST"
 
-# Log the changes that have been saved using git diff
-CHANGES_SAVED=$(git diff --name-only --cached)
-if [ -n "$CHANGES_SAVED" ]; then
-    echo "Changes saved:"
-    echo "$CHANGES_SAVED"
-else
+# Check for changes
+if git diff --cached --quiet; then
     echo "No changes to commit. Exiting."
     exit 0
+else
+    echo "Changes saved:"
+    git diff --name-only --cached
 fi
 
 # Commit with current date and time
@@ -49,7 +42,7 @@ git commit -m "$COMMIT_MSG" || { echo "Error: Commit failed"; exit 1; }
 
 # Push to the current branch
 echo "Pushing changes..."
-git push gitcrypt $(git rev-parse --abbrev-ref HEAD) --force || { echo "Error: Push failed"; exit 1; }
+git push origin $(git rev-parse --abbrev-ref HEAD) --force || { echo "Error: Push failed"; exit 1; }
 
 echo "Changes committed and pushed successfully."
 
