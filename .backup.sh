@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Change the current directory to the location of the script
+cd "$(dirname "$0")"
+echo "Backing up $0 @ $(date)"
+
+
 LOG_FILE=".git/.backup.log"
 
 # Redirect stdout and stderr to both console and log file
