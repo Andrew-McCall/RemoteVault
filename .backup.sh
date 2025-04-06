@@ -32,6 +32,15 @@ while IFS= read -r file; do
     fi
 done < "$FILE_LIST"
 
+# Ignores files over 90MiB 
+git diff --cached --name-only | while read file; do
+  if [ $(stat -c %s "$file") -gt 90000000 ]; then
+    echo "$file is over 90MB"
+    git rm --cached "$file"
+    echo "$file" >> .gitignore
+  fi
+done
+
 # Check for changes
 if git diff --cached --quiet; then
     echo "No changes to commit. Exiting."
